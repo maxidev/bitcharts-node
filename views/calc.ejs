@@ -1,0 +1,149 @@
+   <div class="widget-body innerAll-2" ng-controller="calcController as calc" ng-cloak>
+      <div class="widget widget-tabs widget-tabs-responsive" style="background-color: #fcfcfc; box-shadow: none">
+         <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+               <h1 id="valor_loco">
+                  <b>BTC: {{calc.getSourceValue()|currency}} {{calc.nSource}}</b>
+               </h1>
+               Fuente: <b>{{calc.source}}</b> | Dolar: <b>{{calc.getDolarBlue()|currency}}</b>
+               <br/>
+               Actualización: <b>{{calc.getTimestamp()}}</b>
+            </div>
+         </div>
+         <div class="tab-content">
+            <!-- Tab content -->
+            <div class="tab-pane active" id="tab-1">
+               <!-- BTC-FIAT DIV - START -->
+               <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right" style="margin-top:10px">
+                     <br>
+                     <h2 id="test" class="borders overflow-off">
+                        $ <b>{{calc.setPercent(calc.getSourceValue(),calc.getCurrency(),calc.cantidad)|currency:""}}</b> {{calc.cur}}
+                     </h2>
+                     <div style="color: {{calc.setDivColor()}}; margin-top: -7px">
+                        ({{calc.cantidad}} BTC {{calc.getOperation()}} {{calc.getPercent()}}%)
+                     </div> <!-- calc-percent -->
+                     <br>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                     <div class="form-group">
+                        <div class="input-group">
+                           <input type="text" class="form-control" id="amount" name="cantidad"  ng-model="calc.cantidad" ng-init="calc.cantidad='1.0'" ng-maxlength="15" placeholder="0">
+                           <span class="input-group-addon"><i class="fa fa-btc"></i></span>
+                        </div>
+                     </div> <!-- form-group -->
+                     <div style="padding-top: 6px">
+                        <select id="sources" class="select2" ng-model="calc.source" ng-init="calc.source='bitfinex.com'" style="width: 100%">
+                           <option value="bitfinex.com">Bitfinex</option>
+                           <option value="bitstamp.net">Bitstamp</option>
+                           <option value="bitcoinaverage.com"> BitcoinAverage</option>
+                           <option value="bitex.la">Bitex </option>
+                           <option value="bitcharts.io">Bitcharts (AR)</option>
+                           <option value="argenbtc.com">ArgenBTC (AR)</option>
+                           <option value="ripio.com">Ripio (AR)</option>
+                           <option value="satoshitango.com">SatoshiTango (AR)</option>
+                        </select>
+                        <select id="currency" class="select2" ng-init="calc.cur='ARS'" ng-model="calc.cur" style="width: 100%">
+                           <option value="ARS" >Convertir a: ARS</option>
+                           <option value="USD" >Convertir a: USD</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                     <div class="form-group">
+                        <div class="input-group">
+                           <input type="text" class="form-control" name="PercentNumber" placeholder="0" ng-init="calc.percent=0"  ng-model="calc.percent" >
+                           <select id="MasOMenos" class="select2" ng-init="calc.percentOperation='+'" ng-model="calc.percentOperation" style="width: 100%">
+                              <option value="+">Agregar </option>
+                              <option value="-">Restar</option>
+                           </select>
+                           <span class="input-group-addon">%</span>
+                        </div> <!-- input-group -->
+                     </div> <!-- form-group -->
+                     <div class="text-center">
+                        <small>Descargá aquí nuestra  </small><br/>
+                        <b><a href="https://play.google.com/store/apps/details?id=com.ionicframework.bitchartscalc345071&hl=es" target="_blank">Android App</a></b>
+                     </div>
+                  </div>
+               </div>
+            </div> <!-- tab-pane tab-1 BTC TO FIAT -->
+
+            <div class="tab-pane" id="tab-2">
+               <!-- FIAT-BTC DIV - START -->
+               <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right" style="margin-top:10px">
+                     <br>
+                     <h2 class="borders overflow-off">
+                        <b>{{calc.setBtcPercent(calc.setBtcCant())}}</b> BTC
+                     </h2>
+                     <div style="color: {{calc.setDivColor()}}; margin-top: -7px">
+                        ({{calc.fiatcant}} {{calc.fiatCur}} {{calc.getOperation()}} {{calc.getPercent()}}%)
+                     </div> <!-- calc-percent -->
+                     <br>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                     <div class="form-group">
+                        <div class="input-group">
+                           <input type="text" class="form-control" id="amount" name="fiatcantidad" ng-maxlength="7" ng-init="calc.fiatcant=0" ng-model="calc.fiatcant" placeholder="0" style="width:50%;">
+                           <select id="currency" class="select2" ng-model="calc.fiatCur" ng-init="calc.fiatCur='ARS'" style="width:50%">
+                              <option value ="ARS">ARS</option>
+                              <option value ="USD">USD</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div style="padding-top: 6px">
+                        <select id="sources" class="select2" ng-model="calc.source" ng-init="calc.source='bitfinex.com'" style="width: 100%">
+                           <option value="bitfinex.com">Bitfinex</option>
+                           <option value="bitstamp.net">Bitstamp</option>
+                           <option value="bitcoinaverage.com"> BitcoinAverage</option>
+                           <option value="bitex.la">Bitex </option>
+                           <option value="btc-e.com">BTC-e</option>
+                           <option value="bitcharts.io">Bitcharts (AR)</option>
+                           <option value="argenbtc.com">ArgenBTC (AR)</option>
+                           <option value="bitcoinbrothers.co"> Bitcoin Brothers (AR)</option>
+                           <option value="digicoins.tk">Digicoins (AR)</option>
+                           <option value="ripio.com">Ripio (AR)</option>
+                           <option value="satoshitango.com">SatoshiTango (AR)</option>
+                           <option value="unisend.com">Unisend (AR)</option>
+                        </select>
+
+                        <select id="convert" class="select2" ng-init="calc.convBtc='BTC'" ng-model="calc.convBtc" style="margin-top: -1px; width: 100%">
+                           <option value="BTC" >BTC</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                     <div class="form-group">
+                        <div class="input-group">
+                           <input type="text" class="form-control" id="amount" name="PercentNumber" placeholder="0" ng-init="calc.percent=0" ng-model="calc.percent" ng-maxlength="2">
+                           <select id="MasOMenos" class="select2" ng-init="calc.percentOperation='+'" ng-model="calc.percentOperation" style="width: 100%">
+                              <option value="+">Sumar </option>
+                              <option value="-">Restar</option>
+                           </select>
+                           <span class="input-group-addon">%</span>
+                        </div> <!-- input-group -->
+                     </div> <!-- form-group -->
+                  </div>
+               </div>
+            </div> <!-- tab-pane tab-2 FIAT TO BTC -->
+         </div>
+
+         <!-- Tabs Heading -->
+         <div class="widget-head border-top" style="background-color: #fcfcfc; border-bottom: 0; margin-top: 31px; margin-bottom: -38px">
+            <ul>
+               <li class="active">
+                  <a class="glyphicons calculator" href="#tab-1" data-toggle="tab"><i></i>BTC / {{calc.setTabBtc()}}</a>
+               </li>
+               <li>
+                  <a class="glyphicons calculator" href="#tab-2" data-toggle="tab"><i></i>{{calc.setTabArs()}} / BTC</a>
+               </li>
+            </ul>
+         </div>
+         <!-- // Tabs Heading END -->
+      </div> <!-- widget tab respons -->
+   </div> <!-- widget-body innerAll -->
+   <!-- FRUTA TERMINA ACA -->

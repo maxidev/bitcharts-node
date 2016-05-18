@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<head>
+   <title>Bitcharts.io | API Documentation</title>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+   <link rel="stylesheet" href="../assets/select2/select2.css"/>
+   <link rel="stylesheet" href="/../css/animate.css/animate.css">
+   <link rel="stylesheet" href="/../css/default.css"/>
+   <link rel="stylesheet" href="/../css/component.css"/>
+   <link rel="stylesheet" href="/../css/main.css"/>
+   <link rel="stylesheet" href="/bower_components/highlightjs/styles/monokai_sublime.css">
+</head>
+
+<body>
+   <div class="container-fluid">
+      <!-- sidebar -->
+      <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left cbp-spmenu-open" id="cbp-spmenu-s1">
+         <h3 style="padding: 0"><a href="/"><img src="/../assets/images/logo_beta.png" style="border: 0"></a></h3>
+         <br/>
+         <a data-scroll href="#one">Introducción</a>
+         <a data-scroll href="#two">Bitcharts ticker</a>
+         <a data-scroll href="#three">Wallet balance</a>
+         <a data-scroll href="#four">Wallet TXs</a>
+         <a data-scroll href="#five">Wallet UTXOs</a>
+         <a data-scroll href="#six">Mensajes en transacciones</a>
+         <a data-scroll href="#seven">Info de transacción</a>
+         <a data-scroll href="#eight">Conversión de BTC a ARS</a>
+         <a data-scroll href="#nine">Conversión de ARS a BTC</a>
+         <a data-scroll href="#ten">Generador de wallets</a>
+      </nav>
+
+      <div class="innerLR innerDOC">
+         <h1 style="color: #333">Bitcharts API: Documentación</h1>
+
+         <div id="one" class="row totalDOC">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 leftDOC">
+               <h2><b>Introducción</b></h2>
+               <br>
+               <p>La API de Bitcharts se compone de varios endpoints los cuales responden con objetos JSON y devuelvan información sobre Bitcoin, conversiones a FIAT, data de blockchain, etc.
+               </p>
+               <p>
+               Por motivos de seguridad y performance Bitcharts bloquea más de 3 requests por segundo a cada endpoint.<br/>
+               <br/> 
+               En caso de necesitar más requests de los permitidos públicamente hacenos saber tu caso escribiendonos a: <a>info@bitcharts.io</a>
+               </p>
+               <p>Nuestras APIs funcionan gracias a la infraestructura de <a href="https://chain.com">chain.com</a></p>
+               <br/>
+               <p>
+               <li><b>URL Endpoint:</b> https://bitcharts.io/api/</li>
+               <li><b>Ejemplo:</b> https://bitcharts.io/api/ticker</li>
+               </p>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 rightDOC">
+            <h3>Respuesta JSON de ejemplo</h3>
+            <br>
+            <h5>ENDPOINT</h5>
+            <br/>
+            <pre><code class="html">https://bitcharts.io/api/ticker</code></pre>
+            </p>
+            <br/>
+            <h5>RESPUESTA</h5>
+            <br/>
+            <pre><code class="js">{
+   success: true,
+   message: {
+   _timestamp: "Sun May 17 2015, 22:08:07",
+   _timestamp_unix: 1431900487.768226,
+   last_ars: 2990.02,
+   last_usd: 239.07,
+   source: "bitcharts.io"
+   }
+}
+            </code></pre>
+            </div>
+         </div>
+
+         <div id="two" class="row totalDOC" >
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 leftDOC">
+               <h2><b>Bitcharts ticker</b></h2>
+               <br>
+               <p>El objeto de respuesta de nuestro ticker contiene el precio de Bitcoins en USD y ARS (pesos argentinos). <br/>
+               <br/>
+               El monto devuelto en ARS es un average que calculamos en función del precio de venta de algunos de los principales exchanges de Bitcoin en Argentina, actualmente: Digicoins, Ripio y Unisend.  </p>
+               <p>
+               <p>Si querés agregar la cotización de tu sitio en nuestra aplicación podés contactarnos en: <a>info@bitcharts.io</a></p>
+               <br/>
+               <li><b>URL Endpoint:</b> https://bitcharts.io/api/ticker</li>
+               <li><b>Método HTTP:</b> POST</li>
+               </p>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 rightDOC">
+            <h3>Respuesta JSON de ejemplo</h3>
+            <br>
+            <h5>ENDPOINT</h5>
+            <br/>
+            <pre><code class="html">https://bitcharts.io/api/ticker</code></pre>
+            </p>
+            <br/>
+            <h5>RESPUESTA</h5>
+            <br/>
+            <pre><code class="js">{
+   success: true,
+   message: {
+     _timestamp: "Sun May 17 2015, 21:07:00",
+     _timestamp_unix: 1431896820.592227,
+     last_ars: 2990.02,
+     last_usd: 239.07,
+     source: "bitcharts.io"
+   }
+}
+            </code></pre>
+            </div>
+            </div>
+
+<div id="three" class="row totalDOC">
+   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 leftDOC">
+      <h2><b>Wallet balance</b></h2>
+      <br>
+      <p>El objeto de respuesta contiene el balance de la wallet tanto en BTC como FIAT y en distintas unidades.<br/>
+      <br/>
+      El JSON que devuelve el endpoint contiene el balance total de la wallet en las principales unidades de Bitcoin y las cotizaciones ARS (pesos argentinos), oficial y blue.
+      </p>
+      <p>
+      <br/>
+      <li><b>URL Endpoint:</b> https://bitcharts.io/api/wallet/<i><b>wallet</b></i></li>
+      <li><b>Método HTTP:</b> POST</li>
+      <li><b>Parámetros:</b> <i>«wallet» </i>, una dirección Bitcoin</li>
+      </p>
+   </div>
+   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 rightDOC">
+   <h3>Respuesta JSON de ejemplo</h3>
+   <br>
+   <h5>ENDPOINT</h5>
+   <br/>
+   <pre><code class="html">https://bitcharts.io/api/wallet/1LabspdH37eYWLuDWovRoYjKqDuqwjA3nx</code></pre>
+   </p>
+   <br/>
+   <h5>RESPUESTA</h5>
+   <br/>
+   <pre><code class="js">{
+   success: true,
+   message: {
+      balance_satoshis: 172477109,
+      balance_bits: 172477109000000,
+      balance_btc: 1.72477109,
+      balance_btc_usd: 412.2,
+      balance_ars_oficial: 3635.63,
+      balance_ars_blue: 5193.76,
+      recv: 2.93185906,
+      sent: 1.20708797
+   }
+}
+   </code></pre>
+   </div>
+</div>
+
+   <div id="four" class="row totalDOC">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 leftDOC">
+         <h2><b>Wallet TXs</b></h2>
+         <br>
+         <p>El objeto de respuesta contiene la lista de las transacciones de la wallet indicada.<br/><br/>
+         El objeto a su vez contiene los datos de cada transacción: inputs, outputs, confirmaciones, fees, etc.
+         </p>
+         <p>
+         <br/>
+         <li><b>URL Endpoint:</b> https://bitcharts.io/api/wallet_tx/<i><b>wallet</b></i></li>
+         <li><b>Método HTTP:</b> POST</li>
+         <li><b>Parámetros:</b> <i>«wallet» </i>, una dirección Bitcoin</li>
+         </p>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 rightDOC">
+      <h3>Respuesta JSON de ejemplo</h3>
+      <br>
+      <h5>ENDPOINT</h5>
+      <br/>
+      <pre><code class="html">https://bitcharts.io/api/wallet_tx/1LabspdH37eYWLuDWovRoYjKqDuqwjA3nx</code></pre>
+      </p>
+      <br/>
+      <h5>RESPUESTA</h5>
+      <br/>
+         <pre><code class="js">{
+   success: true,
+   message: [
+   {
+      hash: "3c700151472deed8ea6f297e3c07ba9e5d218fe88b68e82b2c6154f127aea105",
+      block_hash: "0000000000000000033e9f90f87788e7dce4dceddae4aa7760fcde31db489c66",
+      block_height: 352804,
+      block_time: "2015-04-19T19:00:17Z",
+      chain_received_at: "2015-04-19T15:16:51.880Z",
+      confirmations: 311,
+      lock_time: 0,
+      inputs: "[..]",
+      outputs: "[..]",
+      fees: 1583678,
+      amount: 8646322,
+      truncated: true
+   },
+   {
+      hash: "01733efbed28943b46c1ee93e07589f35ad0166b0d2e8f72425451c23aacaf30",
+      block_hash: "00000000000000000efa80705b3c52ba3d5ba746185f04d33f1a35c8649602bc",
+      block_height: 352027,
+      block_time: "2015-04-14T01:33:00Z",
+      chain_received_at: "2015-04-14T01:09:40.840Z",
+      confirmations: 1088,
+      lock_time: 0,
+      inputs: "[..]",
+      outputs: "[..]",
+      fees: 10000,
+      amount: 98990000
+   },
+   ]
+}
+         </code></pre>
+         </div>
+         </div>
+
+   <div id="five" class="row totalDOC">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 leftDOC">
+         <h2><b>Wallet UTXOs</b></h2>
+         <br>
+         <p>El objeto JSON de respuesta contiene los UTXO (Unspent Transaction Outputs) asociados a la wallet indicada.<br/>
+         </p>
+         <br/>
+         <p>
+         <li><b>URL Endpoint:</b> https://bitcharts.io/api/wallet_utxo/<i><b>wallet</b></i></li>
+         <li><b>Método HTTP:</b> POST</li>
+         <li><b>Parámetros:</b> <i>«wallet» </i>, una dirección Bitcoin</li>
+         </p>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 rightDOC">
+      <h3>Respuesta JSON de ejemplo</h3>
+      <br>
+      <h5>ENDPOINT</h5>
+      <br/>
+      <pre><code class="html">https://bitcharts.io/api/wallet_utxo/1LabspdH37eYWLuDWovRoYjKqDuqwjA3nx</code></pre>
+      </p>
+      <br/>
+      <h5>RESPUESTA</h5>
+      <br/>
+      <pre><code class="js">{
+   success: true,
+   message: [
+   {
+      transaction_hash: "acfb8e774a1a11266400eb69a66193a07b5910a664c3143aa3ec8992c487effa",
+      output_index: 0,
+      value: 10000,
+      addresses: [
+         "1CPb9QZBkz3gD1rvG9ekNFK5k6jpUycika"
+      ],
+      script: "OP_DUP OP_HASH160 7cef099bf01e382f064d04b3405ff2eabe842746 OP_EQUALVERIFY OP_CHECKSIG",
+      script_hex: "76a9147cef099bf01e382f064d04b3405ff2eabe84274688ac",
+      script_type: "pubkeyhash",
+      required_signatures: 1,
+      spent: false,
+      confirmations: 20603
+   },
+   {
+      transaction_hash: "4b4dc987610088bc59c6e6ee4065ba79fec30e6a9ec129554a20a38479f9c222",
+      output_index: 93,
+      value: 26384,
+      addresses: [
+         "1CPb9QZBkz3gD1rvG9ekNFK5k6jpUycika"
+      ],
+      script: "OP_DUP OP_HASH160 7cef099bf01e382f064d04b3405ff2eabe842746 OP_EQUALVERIFY OP_CHECKSIG",
+      script_hex: "76a9147cef099bf01e382f064d04b3405ff2eabe84274688ac",
+      script_type: "pubkeyhash",
+      required_signatures: 1,
+      spent: false,
+      confirmations: 34654
+   }
+   ]
+}
+      </code></pre>
+      </div>
+      </div>
+
+   <div id="six" class="row totalDOC">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 leftDOC">
+         <h2><b>Mensajes en transacciones</b></h2>
+         <br>
+         <p>En Bitcoin existe un tipo especial de campo llamado OP_RETURN que permite guardar en blockchain un mensaje de texto (de tamaño limitado) realizando una transacción.<br/><br/>El objeto de respuesta devuelve, si existe(n), mensaje(s) de texto asociado(s) a cada transacción de la wallet.
+         </p>
+         <br/>
+         <p>
+         <li><b>URL Endpoint:</b> https://bitcharts.io/api/wallet_text/<i><b>wallet</b></i></li>
+         <li><b>Método HTTP:</b> POST</li>
+         <li><b>Parámetros:</b> <i>«wallet» </i>, una dirección Bitcoin</li>
+         </p>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 rightDOC">
+      <h3>Respuesta JSON de ejemplo</h3>
+      <br>
+      <h5>ENDPOINT</h5>
+      <br/>
+      <pre><code class="html">https://bitcharts.io/api/wallet_text/1LabspdH37eYWLuDWovRoYjKqDuqwjA3nx</code></pre>
+      </p>
+      <br/>
+      <h5>RESPUESTA</h5>
+      <br/>
+      <pre><code class="js">{
+   success: true,
+   message: [
+   {
+     transaction_hash: "7675ae05dc8b85c4218b5bd3ec0cee49766f915b863e91ab3eb26e9d3ebe8b47",
+     hex: "40526f646f6d6f6e74652c34312e3839323931362c31322e343832353230",
+     receiver_addresses: [
+         "1Bj5UVzWQ84iBCUiy5eQ1NEfWfJ4a3yKG1"
+     ],
+     sender_addresses: [
+         "1Bj5UVzWQ84iBCUiy5eQ1NEfWfJ4a3yKG1"
+     ],
+     text: "@Rodomonte,41.892916,12.482520"
+   }
+   ]
+}
+      </code></pre>
+      </div>
+   </div>
+
+   <div id="seven" class="row totalDOC">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 leftDOC">
+         <h2><b>Información de transacción</b></h2>
+         <br>
+         <p>El objeto de respuesta contiene información sobre la transacción asociada al hash indicado.<br/><br/>
+         Además, el mismo contiene la información de todas las estructuras asociadas a la transacción: inputs, outputs, confirmaciones, timestamp, etc.
+         </p>
+         <br/>
+         <p>
+         <li><b>URL Endpoint:</b> https://bitcharts.io/api/tx/<i><b>hash</b></i></li>
+         <li><b>Método HTTP:</b> POST</li>
+         <li><b>Parámetros:</b> <i>«hash» </i>, un hash de transacción</li>
+         </p>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 rightDOC">
+      <h3>Respuesta JSON de ejemplo</h3>
+      <br>
+      <h5>ENDPOINT</h5>
+      <br/>
+      <pre><code class="html">https://bitcharts.io/api/tx/4f329612f5d39be3fe2e47fc64c4db4ace7ad78347be224fe7b4b7eb42a46c57</code></pre>
+      </p>
+      <br/>
+      <h5>RESPUESTA</h5>
+      <br/>
+      <pre><code class="js">{
+   success: true,
+   message: {
+      hash: "3c700151472deed8ea6f297e3c07ba9e5d218fe88b68e82b2c6154f127aea105",
+      block_hash: "0000000000000000033e9f90f87788e7dce4dceddae4aa7760fcde31db489c66",
+      block_height: 352804,
+      block_time: "2015-04-19T19:00:17Z",
+      chain_received_at: "2015-04-19T15:16:51.880Z",
+      confirmations: 315,
+      lock_time: 0,
+      inputs: "[..]",
+      outputs: "[..]",
+      fees: 90000,
+      amount: 10140000
+   }
+}
+</code></pre>
+</div>
+</div>
+
+   <div id="eight" class="row totalDOC">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 leftDOC">
+         <h2><b>Conversión de BTC a ARS</b></h2>
+         <br>
+         <p>El objeto devuelve la cantidad de Bitcoins indicada convertida a pesos argentinos (ARS).<br/><br/>
+         Este endpoint hace uso de el average propio de Bitcharts y utiliza esa cotización para realizar el cálculo de conversión automáticamente.
+         </p>
+         <br/>
+         <p>
+         <li><b>URL Endpoint:</b> https://bitcharts.io/api/btc-ars/<i><b>cantidad BTC</b></i></li>
+         <li><b>Método HTTP:</b> POST</li>
+         <li><b>Parámetros:</b> <i>cantidad BTC</i>, la cantidad de Bitcoins en unidad (BTC/XBT)</li>
+         <li><b>Detalles adicionales: </b> el parámetro debe ser entero o francción con '.'</li>
+         </p>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 rightDOC">
+      <h3>Respuesta JSON de ejemplo</h3>
+      <br>
+      <h5>ENDPOINT</h5>
+      <br/>
+      <pre><code class="html">https://bitcharts.io/api/btc-ars/1.5</code></pre>
+      </p>
+      <br/>
+      <h5>RESPUESTA</h5>
+      <br/>
+         <pre><code class="js">{
+   success: true,
+   message: {
+      bitcoin: 1.5,
+      btc_ars_of: 3161.84,
+      btc_ars_blue: 4516.91,
+      source: "bitcharts.io"
+   }
+}
+</code></pre>
+      </div>
+   </div>
+
+   <div id="nine" class="row totalDOC">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 leftDOC">
+         <h2><b>Conversión de ARS a BTC</b></h2>
+         <br>
+         <p>El objeto devuelve la cantidad de pesos argentinos indicadas convertida a Bitcoins.
+         <br/><br/>
+         Este endpoint utiliza el average de cotización propio de Bitcharts para relizar el cálculo a Bitcoins automáticamente.
+         </p>
+         <br/>
+         <p>
+         <li><b>URL Endpoint:</b> https://bitcharts.io/api/ars-btc/<i><b>cantidad ARS</b></i></li>
+         <li><b>Método HTTP:</b> POST</li>
+         <li><b>Parámetros:</b> <i>cantidad ARS</i>, la cantidad de pesos argentinos a convertir</li>
+         <li><b>Detalles adicionales: </b> el parámetro debe ser un entero o fracción con '.'</li>
+         </p>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 rightDOC">
+      <h3>Respuesta JSON de ejemplo</h3>
+      <br>
+      <h5>ENDPOINT</h5>
+      <br/>
+      <pre><code class="html">https://bitcharts.io/api/ars-btc/3500</code></pre>
+      </p>
+      <br/>
+      <h5>RESPUESTA</h5>
+      <br/>
+      <pre><code class="js">{
+   success: true,
+   message: {
+      ars_blue: 3500,
+      btc: 1.16,
+      source: "bitcharts.io"
+   }
+}
+      </code></pre>
+      </div>
+   </div>
+
+      <div id="ten" class="row totalDOC" >
+         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 leftDOC">
+            <h2><b>Generador de Wallets</b></h2>
+            <br>
+            <p>Esta es una miscelánea que creemos puede ser útil para algun programador que necesite una formá rápida de generar direcciones Bitcoin. <br/><br/>
+            <b>Bitcharts NO almacena las direcciones o claves privadas.</b><br/>
+            <br/>
+            De todas formas recomendamos enfáticamente que solo se use para pruebas y nunca como direcciones de usuario final.
+            </p>
+            <p>
+            <br/>
+            <li><b>URL Endpoint:</b> https://bitcharts.io/api/walletgen</li>
+            <li><b>Método HTTP:</b> POST</li>
+            </p>
+         </div>
+         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 rightDOC">
+         <h3>Respuesta JSON de ejemplo</h3>
+         <br>
+         <h5>ENDPOINT</h5>
+         <br/>
+         <pre><code class="html">https://bitcharts.io/api/walletgen</code></pre>
+         </p>
+         <br/>
+         <h5>RESPUESTA</h5>
+         <br/>
+         <pre><code class="js">{
+   wallet: "13XGsuHcHxNstNhzSFyt7oZqSu2WXcitr6",
+   privKey: "L3W2U13Q6ZmZTgqLw2K4cNQK3TzYau3sF4C8CQbqXXKXPETqw9Qn"
+}
+         </code></pre>
+         </div>
+          </div>
+
+</div>
+
+</div> <!-- container-fluid -->
+
+<!-- Bower dependencies -->
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/angular/angular.min.js"></script>
+<script src="/bower_components/modernizr/modernizr.js"></script>
+<script src="/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+<script src="/bower_components/smooth-scroll.js/dist/js/smooth-scroll.min.js"></script>
+<script src="/bower_components/highlightjs/highlight.pack.js"></script>
+
+<!-- Custom assets -->
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/pace/pace.min.js"></script>
+<script src="/js/pace/preload.pace.init.js"></script>
+<script src="/js/classie.js"></script>
+
+
+<!-- smooth scroll -->
+<script type="text/javascript">
+   smoothScroll.init({
+      speed: 1000,
+      easing: 'easeInOutQuad',
+      updateURL: true,
+      offset: 0,
+   });
+</script>
+
+<script type="text/javascript">
+   hljs.initHighlightingOnLoad();
+</script>
+
+</body>
+</html>

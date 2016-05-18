@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html ng-app="walletinfoapp" >
+<head>
+   <title>Bitcharts.io | Bitcoin real-time metrics</title>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+   <link rel="stylesheet" href="/../css/animate.css/animate.css">
+   <link rel="stylesheet" href="/../css/main.css"/>
+   <link rel="stylesheet" href="/../css/loadig-animations.css">
+</head>
+<body ng-controller="controller.walletinfo as c" ng-init=<% if (valid_wallet) { %> "c.getInfo('<%= wallet %>');" <% }else{ %> "c.setTestWallet();" <% } %> >
+<!-- Main Container Fluid -->
+<div class="container-fluid menu-hidden">
+   <!-- Content -->
+   <div id="content">
+      <!-- navbar -->
+      <% include ../views/navbar %>
+      <!-- end navbar -->
+
+      <div class="innerLR">
+         <!-- alert error login -->
+         <!-- when login remove from here: -->
+         <div id="alert" class="alert alert-danger alert-dismissible alert-login">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+            <b>El acceso de usuario se encuentra temporalmente deshabilitado.</b>
+         </div>
+         <!-- to here -->
+
+         <div class="row">
+               <% if (valid_wallet == false && wallet === '') { %>
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                     <div class="alert alert-info alert-wallet-empty">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <b>Ingrese una wallet Bitcoin para conocer el balance e información adicional.</b>
+                     </div>
+                  </div>
+               <% } else if (valid_wallet == false && wallet !== '') { %>
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                     <div class="alert alert-danger alert-error">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <b>La wallet introducida es inválida. En Bitcoin, las direcciones wallet tienen el formato: 1LabspdH37eYWLuDWovRoYjKqDuqwjA3nx</b>
+                     </div>
+                  </div>
+               <% } %> 
+
+               <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
+                  <div class="widget">
+                     <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none text-center">
+                        <b>Wallet Balance</b>
+                     </h4>
+
+                     <div class="widget-body innerAll-2 bg-widget-gray" style="min-height: 400px;" ng-hide="c.balance">
+                        <div class="spinner-css">
+                          <span class="side sp_left">
+                            <span class="fill"></span>
+                          </span>
+                          <span class="side sp_right">
+                            <span class="fill"></span>
+                          </span>
+                        </div>
+                     </div>
+
+                     <div class="widget-body innerAll-2 bg-widget-gray" style="min-height: 400px;" ng-class="{'animated fadeIn' : c.balance}" ng-show="c.balance">
+                        <!-- Balance -->
+                        <h4><small class="last-trans-title">Dirección Wallet</small></h4>
+                        <h4 class="borders overflow-off" id="dirwallet" >
+                           {{ c.balance.address }}
+                        </h4>
+                        <br>
+                        <div class="row">
+                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                              <h4><small class="last-trans-title">Balance BTC</small></h4>
+                              <h4 class="borders overflow-off price-buy">
+                                 {{ c.balance.confirmed.btc }}
+                              </h4>
+
+                              <h4><small class="last-trans-title">Balance Satoshi</small></h4>
+                              <h4 class="borders overflow-off">
+                                 {{ c.balance.confirmed.satoshies }}
+                              </h4>
+
+                              <h4><small class="last-trans-title">Balance Bits</small></h4>
+                              <h4 class="borders overflow-off">
+                                 {{ c.balance.confirmed.bits }}
+                              </h4>
+                           </div>
+                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                              <h4><small class="last-trans-title">Balance USD</small></h4>
+                              <h4 class="borders overflow-off">
+                                 $ {{ c.balance.confirmed.balance_usd | currency:"" }}
+                              </h4>
+
+                              <h4><small class="last-trans-title">Balance ARS Oficial</small></h4>
+                              <h4 class="borders overflow-off">
+                                 $ {{ c.balance.confirmed.balance_ars_ofi | currency:"" }}
+                              </h4>
+
+                              <h4><small class="last-trans-title">Balance ARS Informal (blue)</small></h4>
+                              <h4 class="borders overflow-off">
+                                 $ {{ c.balance.confirmed.balance_ars_blue | currency:"" }}
+                              </h4>
+                           </div>
+                        </div>
+                        <br>
+                        <!-- Enviado / Recibido -->
+                        <div class="row">
+                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                              <h4><small class="last-trans-title">Total Recibido</small></h4>
+                              <h4 class="borders overflow-off">
+                                 {{ c.balance.confirmed.received }} BTC
+                              </h4>
+                           </div>
+                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                              <h4><small class="last-trans-title">Total Enviado</small></h4>
+                              <h4 class="borders overflow-off">
+                                 {{ c.balance.confirmed.sent }} BTC
+                              </h4>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div class="widget">
+                     <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none text-center">
+                        <b>Mensaje de Transacciones</b>
+                     </h4>
+                     <div class="widget-body innerAll-2 bg-widget-gray" style="min-height: 162px;" ng-hide="c.opret">
+                        <div class="spinner-css">
+                          <span class="side sp_left">
+                            <span class="fill"></span>
+                          </span>
+                          <span class="side sp_right">
+                            <span class="fill"></span>
+                          </span>
+                        </div>
+                     </div>
+                     <div class="widget-body innerAll-2 bg-widget-gray" style="min-height: 162px;" ng-class="{'animated fadeIn' : c.opret}" ng-show="c.opret">
+                        <h4><small class="last-trans-title">OP_return TX #1</small></h4>
+                        <h4 class="borders overflow-off font-medium">{{c.opret[0]}}</h4>
+
+                        <h4><small class="last-trans-title">OP_return TX #2</small></h4>
+                        <h4 class="borders overflow-off font-medium">{{c.opret[1]}}</h4>
+                     </div>
+                  </div>
+
+                  <div class="widget">
+                     <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none text-center">
+                        <b>Wallet QR</b>
+                     </h4>
+                     <div class="widget-body innerAll-2" style="min-height: 183px;" ng-hide="c.QRCode">
+                        <div class="spinner-css">
+                          <span class="side sp_left">
+                            <span class="fill"></span>
+                          </span>
+                          <span class="side sp_right">
+                            <span class="fill"></span>
+                          </span>
+                        </div>
+                     </div>
+                     <div class="widget-body innerAll-2" style="min-height: 183px;" ng-show="c.QRCode">
+                        <div id="qrcode"></div>
+                     </div>
+                  </div>
+               </div> <!-- end col-md-4 -->
+
+               <div class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+                  <div class="widget">
+                     <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none text-center">
+                        <b>Últimas Transacciones</b>
+                     </h4>
+
+                     <div class="lanimation widget-body innerAll-2 bg-widget-gray" style="min-height: 862px; overflow-y: auto;" ng-hide="c.txs">
+                        <div class="spinner-css">
+                           <span class="side sp_left">
+                              <span class="fill"></span>
+                           </span>
+                           <span class="side sp_right">
+                              <span class="fill"></span>
+                           </span>
+                        </div>
+                     </div>
+
+                     <div class="widget-body innerAll-2 bg-widget-gray" style="min-height: 862px; overflow-y: auto;" ng-class="{'animated fadeIn' : c.txs}" ng-show="c.txs">
+                        <!-- ultima transaccion -->
+                        <div ng-repeat="tx in c.txs" ng-init="c.tooltips();">
+                           <div class="row" >
+                              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                 <h4><small class="last-trans-title">Valor TX BTC</small></h4>
+                                 <h4 class="borders overflow-off">
+                                    <b>{{ c.values[$index].value }}</b>
+                                       <i ng-show="c.values[$index].enviado" class="fa fa-chevron-up pull-right" data-toggle="tooltip" data-original-title="Enviado" data-placement="top" style="color: #F5785A"></i>
+                                       <i ng-hide="c.values[$index].enviado" class="fa fa-chevron-down pull-right" data-toggle="tooltip" data-original-title="Recibido" data-placement="top" style="color: #A2CD5A"></i>
+                                 </h4>
+
+                                 <h4><small class="last-trans-title">Valor TX USD</small></h4>
+                                 <h4 class="borders overflow-off">
+                                    $ {{ c.values[$index].value_usd | currency:"" }}
+                                 </h4>
+
+                                 <h4><small class="last-trans-title">Valor TX ARS Oficial</small></h4>
+                                 <h4 class="borders overflow-off">
+                                    $ {{ c.values[$index].value_ars_of | currency:"" }}
+                                 </h4>
+
+                                 <h4><small class="last-trans-title">Valor TX ARS Informal (blue)</small></h4>
+                                 <h4 class="borders overflow-off">
+                                    $ {{ c.values[$index].value_ars_blue | currency:"" }}
+                                 </h4>
+                              </div>
+                              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                 <h4><small class="last-trans-title">Hora TX</small></h4>
+                                 <h4 class="borders overflow-off">{{ tx.block_time }}</h4>
+
+                                 <h4><small class="last-trans-title">Confirmaciones</small></h4>
+                                 <h4 class="borders overflow-off">{{ tx.confirmations }}</h4>
+
+                                 <h4><small class="last-trans-title">Fees</small></h4>
+                                 <h4 class="borders overflow-off">{{ tx.fees }} BTC</h4>
+                              </div>
+                           </div>
+                           <h4><small class="last-trans-title">Hash de Transacción</small></h4>
+                           <h4 class="borders overflow-off">{{ tx.hash }}</h4>
+
+                           <h4><small class="last-trans-title">Hash de Bloque</small></h4>
+                           <h4 class="borders overflow-off">{{ tx.block_hash }}</h4>
+                           <hr style="margin-top: 15px;margin-bottom:10px;">
+                        </div>
+
+                        <p ng-show="c.txs.length==0">Wallet sin transacciones</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+      </div> <!-- innerLR -->
+   </div><!-- // Content END -->
+   <div class="clearfix"></div>
+</div>
+<!-- // Main Container Fluid END -->
+
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/modernizr/modernizr.js"></script>
+<script src="/bower_components/jquery.breakpoints/breakpoints.js"></script>
+<script src="/bower_components/angular/angular.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/pace/pace.min.js"></script>
+<script src="../js/pace/preload.pace.init.js"></script>
+<script src="../js/animations.init.js"></script>
+<script src="../js/qrcode.min.js"></script>
+<script src="../js/min/walletinfo.min.js"></script>
+
+
+</body>
+</html>

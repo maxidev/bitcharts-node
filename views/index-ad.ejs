@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<head>
+   <title>Bitcharts.io | Bitcoin real-time metrics</title>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+   <meta name="robots" content="INDEX, FOLLOW"/>
+   <meta name="description" content="Bitcoin real-time metrics for Argentina"/>
+   <meta name="country" content="Argentina"/>
+   <meta name="Keywords" content="bitcoin - charts - metrics -graphs"/>
+   <meta property="og:title" content="Bitcharts.io | Bitcoin real-time metrics"/>
+   <meta property="og:site_name" content="bitcharts.io"/>
+   <meta property="og:url" content="https://bitcharts.io"/>
+   <meta property="og:description" content="Bitcoin real-time metrics for Argentina"/>
+   <link rel="stylesheet" href="/../assets/select2/select2.css"/>
+   <link rel="stylesheet" href="/../css/animate.css/animate.css">
+   <link rel="stylesheet" href="/../css/main.css"/>
+</head>
+
+<body ng-app="bitcharts">
+   <div class="modal fade" id="modal">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="tabbable">
+                  <ul class="nav nav-justified" id="myTab">
+                     <li class="active"><a data-toggle="tab" href="#1">Info AD #1</a></li>
+                     <li><a data-toggle="tab" href="#2">Info AD #2</a></li>
+                     <li><a data-toggle="tab" href="#3">Info AD #3</a></li>
+                  </ul>
+
+                  <div class="modal-body">
+                     <div class="tab-content">
+                        <div class="tab-pane fade active in" id="1">
+                           <p>Información:</p>
+                           <p>El AD#1 se encuentra justo por debajo del header y es el principal del sitio. <br/>El espacio de es de 495px por 16px y cuenta de un texto descriptivo y el link al sitio promocionado.<br/>
+                           El texto y el vínculo pueden cambiar cuantas veces quiera el anunciante.<br/>
+                           Por precio y disponibilidad consultar en info@bitcharts.io
+                           </p>
+                        </div>
+
+                        <div class="tab-pane fade" id="2">
+                           <p>Información</p>
+                           <p>El AD#2 se encuentra en la esquina inferior derecha de la calculadora y sus dimensiones son 262px por 40px.<br/>Siendo una de las funcionalidades más utilizadas del sitio el espacio del AD#2 es ideal para anunciantes que comercien Bitcoins.<br/>
+                           El texto y el vínculo pueden cambiar cuantas veces quiera el anunciante.<br/>
+                           Por precio y disponibilidad consultar en info@bitcharts.io
+                           </p>
+                        </div>
+
+                        <div class="tab-pane fade" id="3">
+                           <p>Información:</p>
+                           <p>El AD#3 es el popover con forma de estrella que actualmente se encuentra en la esquina superior derecha del cuadro de información del exchange Bitfinex.<br/>Este AD es ideal para destacar el exchange indicado por sobre los actuales y futuros nuevos sitios que se vayan agregando a Bitcharts.io<br/>
+                           Al pasar el mouse por sobre el mismo se desprende un pop-up con información adicional.<br/>
+                           El texto y el vínculo pueden cambiar cuantas veces quiera el anunciante.<br/>
+                           Por precio y disponibilidad consultar en info@bitcharts.io
+                           </p>
+                        </div>
+                     </div> <!-- end tab-content -->
+                  </div> <!-- modal-body -->
+               </div> <!-- end tabbable -->
+               <button type="button" class="btn btn-default btn-modal" data-dismiss="modal">Ok</button>
+            </div><!-- /.modal-content -->
+         </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+   <div class="container-fluid menu-hidden">
+      <div id="content">
+         <!-- navbar -->
+         <% include ../views/navbar %>
+         <!-- end navbar -->
+
+         <div class="innerLR">
+            <div class="row">
+               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <!-- alert error login -->
+                  <!-- when login remove from here: -->
+                  <div id="alert" class="alert alert-danger alert-dismissible alert-login">
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                     </button>
+                     <b>El acceso de usuario se encuentra temporalmente deshabilitado.</b>
+                  </div>
+                  <!-- to here -->
+
+                  <div class="alert alert-primary alert-ad">
+                     <button type="button" class="close" data-dismiss="alert">×</button>
+                     <h4 class="text-center"><small style="color: #fff">
+                        <b>AD#1</b> ¿Necesita comprar Bitcoins de manera rápida y confiable? <b><a href="#" style="color: #fff">ADexchange.com</a></b>
+                     </small></h4>
+                  </div>
+               </div>
+            </div>
+
+            <div class="row">
+               <!-- Grafico Bitcoins Begin -->
+               <div class="col-md-8">
+                  <div class="relativeWrap">
+                     <div class="widget widget-tabs widget-tabs-double widget-tabs-responsive">
+                        <div class="widget-head" style="background-color: #f7f7f7">
+                           <ul>
+                              <li class="active"><a href="#graph1" class="glyphicons globe" data-toggle="tab" ><i></i><span class="strong">Exchanges</span><span>Internacionales</span></a>
+                              </li>
+                              <li>
+                                 <a href="#graph2" class="glyphicons charts" data-toggle="tab" id="graph2tab">
+                                    <i></i><span class="strong">Exchanges</span><span>Argentinos</span>
+                                 </a>
+                              </li>
+                              <li>
+                                 <a href="#graph3" class="glyphicons money" data-toggle="tab">
+                                    <i></i><span class="strong" >Cotización Dólar</span><span>Oficial / Dolar Blue</span>
+                                 </a>
+                              </li>
+                           </ul>
+                        </div> <!-- widget-head -->
+                        <div class="widget-body bg-widget-gray">
+                           <div class="tab-content">
+                              <div class="tab-pane active" id="graph1">
+                                 <div id="graph1_1"></div>
+                              </div>
+                              <div class="tab-pane" id="graph2">
+                                 <div id="graph1_2"></div>
+                              </div>
+                              <div class="tab-pane" id="graph3">
+                                 <div id="graph1_3"></div>
+                              </div>
+                           </div> <!-- tab-content -->
+                        </div> <!-- widget-body -->
+                     </div>
+                  </div><!-- relativewrap -->
+               </div>
+               <!-- Graficos Bitcoins End -->
+               <!-- Calculadora & Wallet Info Begin -->
+               <div class="col-md-4" ng-cloak>
+                  <div class="relativeWrap">
+                     <div class="widget widget-tabs widget-tabs-double widget-tabs-responsive">
+                        <div class="widget-head" style="background-color: #f7f7f7">
+                           <ul>
+                              <li class="active">
+                                 <a href="#tab1-1" class="glyphicons calculator" data-toggle="tab"><i></i><span class="strong">Calculadora</span><span>Bitcoin</span></a>
+                              </li>
+                              <li>
+                                 <a href="#tab1-2" class="glyphicons wallet" data-toggle="tab"><i></i><span class="strong">Wallet </span><span>Balance</span></a>
+                              </li>
+                           </ul>
+                        </div> <!-- widget-head -->
+                        <div class="widget-body bg-widget-gray">
+                           <div class="tab-content">
+                              <div class="tab-pane active" id="tab1-1">
+                                 <% include ../views/calc-ad %>
+                              </div> <!-- tab-pane active -->
+
+                              <div class="tab-pane" id="tab1-2">
+                                 <div class="widget-body innerAll" style="height: 400px;">
+                                    <input type="text" class="form-control" id="wallet" name="wallet" placeholder="Introduzca una wallet">
+                                    <div id="alerta" style="color:#CC3A3A">Wallet inválida</div> <!-- alerta -->
+                                    <div id="alerta1">Tip: Las wallets Bitcoin tienen más de 33 caracteres.</div> <!-- alerta -->
+                                    <p class="text-center"> <i id="fa-spinner" class="fa fa-spinner fa-spin fa-2x" style="margin-top: 10px;"></i></p>
+                                    <div id="divWalletBalance" style="padding-top: 5px">
+                                       <h4><small class="last-trans-title">Balance</small></h4>
+                                       <h4 class="borders overflow-off">
+                                          <span id="balance"></span> <span class="font-medium">BTC</span>
+                                       </h4>
+
+                                       <h4><small class="last-trans-title">Balance USD</small></h4>
+                                       <h4 class="borders overflow-off">
+                                          $ <span id="balance_btc_usd"></span> <span class="font-medium">USD</span>
+                                       </h4>
+
+                                       <h4><small class="last-trans-title">Balance ARS</small></h4>
+                                       <h4 class="borders overflow-off">
+                                          $ <span id="balance_ars_blue"></span> <span class="font-medium">ARS</span>
+                                       </h4>
+
+                                       <h4><small class="last-trans-title">Total Recibido</small></h4>
+                                       <h4 class="borders overflow-off">
+                                          <span id="recv"></span> <span class="font-medium">BTC</span>
+                                       </h4>
+
+                                       <h4><small class="last-trans-title">Total Enviado</small></h4>
+                                       <h4 class="borders overflow-off">
+                                          <span id="sent"></span> <span class="font-medium">BTC</span>
+                                       </h4>
+                                    </div> <!-- divwalletbalance -->
+                                 </div> <!--  widget-body innerAll -->
+                              </div> <!-- tabpane-1-2 -->
+                           </div> <!-- tab-content -->
+                        </div> <!-- widget-body -->
+                     </div> <!-- widget-tabs double -->
+                  </div> <!-- relativewrap -->
+               </div> <!-- col-md4 -->
+               <!-- Calculadora & Wallet Info End -->
+            </div>
+
+            <!-- Exchange Row Begin -->
+            <div class="row text-center" ng-controller="exchangesController as e">
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                  <div class="widget">
+                     <div class="widget-body padding-none bg-widget-gray">
+                        <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none">
+                           <b>Bitstamp</b>
+                           <!--
+                           <i class="fa fa-check-circle pull-right"></i>
+                           -->
+                        </h4>
+                        <div class="innerAll-2 text-left">
+                           <h4><small class="last-trans-title">Compra</small></h4>
+                           <h4 class="price-buy borders text-right fontsize-exchange">
+                              {{e.getSource("bitstamp").buy|currency}} {{e.getSource("bitstamp").currency}}
+                           </h4>
+
+                           <h4><small class="last-trans-title">Venta</small></h4>
+                           <h4 class="price-sell borders text-right fontsize-exchange">
+                              {{e.getSource("bitstamp").sell|currency}} {{e.getSource("bitstamp").currency}}
+                           </h4>
+
+                           <div class="sparkline" sparkHeight="25" sparkType="line" sparkWidth="100%" sparkLineWidth="2" sparkLineColor="#607B8B" sparkFillColor="rgba(96, 123, 139, 0.233)"
+                           data-data="{{e.getSource('bitstamp').history}}">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                  <div class="widget">
+                     <div class="widget-body padding-none bg-widget-gray">
+                        <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none">
+                           <b>Bitfinex</b>
+                           <i class="fa fa-star pull-right" id="popover" data-toggle="popover" data-title="AD#3" data-content="ADexchange" data-placement="top" data-trigger="hover"></i>
+                        </h4>
+                        <div class="innerAll-2 text-left">
+                           <h4><small class="last-trans-title">Compra</small></h4>
+                           <h4 class="price-buy borders text-right fontsize-exchange">
+                              {{e.getSource("bitfinex").buy|currency}} {{e.getSource("bitfinex").currency}}
+                           </h4>
+
+                           <h4><small class="last-trans-title">Venta</small></h4>
+                           <h4 class="price-sell borders text-right fontsize-exchange">
+                              {{e.getSource("bitfinex").sell|currency}} {{e.getSource("bitfinex").currency}}
+                           </h4>
+
+                           <div class="sparkline" sparkHeight="25" sparkType="line" sparkWidth="100%" sparkLineWidth="2" sparkLineColor="#607B8B" sparkFillColor="rgba(96, 123, 139, 0.233)"
+                           data-data="{{e.getSource('bitfinex').history}}">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                  <div class="widget">
+                     <div class="widget-body padding-none bg-widget-gray">
+                        <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none">
+                           <b>Bitex</b>
+                        </h4>
+                        <div class="innerAll-2 text-left">
+                           <h4><small class="last-trans-title">Compra</small></h4>
+                           <h3 class="price-buy borders text-right fontsize-exchange">
+                              {{e.getSource("bitex").buy|currency}} {{e.getSource("bitex").currency}}
+                           </h3>
+
+                           <h4><small class="last-trans-title">Venta</small></h4>
+                           <h3 class="price-sell borders text-right fontsize-exchange">
+                              {{e.getSource("bitex").sell|currency}} {{e.getSource("bitex").currency}}
+                           </h3>
+
+                           <div class="sparkline" sparkHeight="25" sparkType="line" sparkWidth="100%" sparkLineWidth="2" sparkLineColor="#607B8B" sparkFillColor="rgba(96, 123, 139, 0.233)"
+                           data-data="{{e.getSource('bitex').history}}">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                  <div class="widget">
+                     <div class="widget-body padding-none bg-widget-gray">
+                        <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none">
+                           <b>Digicoins</b>
+                        </h4>
+                        <div class="innerAll-2 text-left">
+                           <h4><small class="last-trans-title">Compra</small></h4>
+                           <h3 class="price-buy borders text-right fontsize-exchange">
+                              {{e.getSource("digicoins").buy|currency}} {{e.getSource("digicoins").currency}}
+                           </h3>
+
+                           <h4><small class="last-trans-title">Venta</small></h4>
+                           <h3 class="price-sell borders text-right fontsize-exchange">
+                              {{e.getSource("digicoins").sell|currency}} {{e.getSource("digicoins").currency}}
+                           </h3>
+
+                           <div class="sparkline" sparkHeight="25" sparkType="line" sparkWidth="100%" sparkLineWidth="2" sparkLineColor="#607B8B" sparkFillColor="rgba(96, 123, 139, 0.233)"
+                           data-data="{{e.getSource('digicoins').history}}">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                  <div class="widget">
+                     <div class="widget-body padding-none bg-widget-gray">
+                        <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none">
+                           <b>Ripio</b>
+                        </h4>
+                        <div class="innerAll-2 text-left">
+                           <h4><small class="last-trans-title">Compra</small></h4>
+                           <h3 class="price-buy borders text-right fontsize-exchange">
+                              {{e.getSource("ripio").buy|currency}} {{e.getSource("ripio").currency}}
+                           </h3>
+
+                           <h4><small class="last-trans-title">Venta</small></h4>
+                           <h3 class="price-sell borders text-right fontsize-exchange">
+                              {{e.getSource("ripio").sell|currency}} {{e.getSource("ripio").currency}}
+                           </h3>
+
+                           <div class="sparkline" sparkHeight="25" sparkType="line" sparkWidth="100%" sparkLineWidth="2" sparkLineColor="#607B8B" sparkFillColor="rgba(96, 123, 139, 0.233)"
+                           data-data="{{e.getSource('ripio').history}}">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                  <div class="widget">
+                     <div class="widget-body padding-none bg-widget-gray">
+                        <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none">
+                           <b>Unisend</b>
+                        </h4>
+                        <div class="innerAll-2 text-left">
+                           <h4><small class="last-trans-title">Compra</small></h4>
+                           <h3 class="price-buy borders text-right fontsize-exchange">
+                              {{e.getSource("unisend").buy|currency}} {{e.getSource("unisend").currency}}
+                           </h3>
+
+                           <h4><small class="last-trans-title">Venta</small></h4>
+                           <h3 class="price-sell borders text-right fontsize-exchange">
+                              {{e.getSource("unisend").sell|currency}} {{e.getSource("unisend").currency}}
+                           </h3>
+
+                           <div style="width: 100%">
+                              <div class="sparkline" sparkHeight="25" sparkWidth="100%" sparkType="line" sparkLineWidth="2" sparkLineColor="#607B8B" sparkFillColor="rgba(96, 123, 139, 0.233)"
+                              data-data="{{e.getSource('unisend').history}}"></div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- Exchange Row End -->
+
+            <div class="row">
+               <!-- grafico 2 -->
+               <div class="col-md-8">
+                  <div class="widget widget-body">
+                     <div class="widget-body innerAll bg-widget-gray">
+                        <div id="graphCand"></div>
+                     </div>
+                  </div> <!-- widget widget-body -->
+               </div> <!-- col md 8 -->
+               <!-- grafico 2 end -->
+
+               <div class="col-md-4" ng-controller="statsController as s">
+                                 <div class="widget">
+                                    <div class="widget-body padding-none bg-widget-gray">
+                                       <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none text-center">
+                                          <b>Estadísticas de red</b>
+                                       </h4>
+                                       <div class="innerAll">
+                                          <h4 class="text-center" style="margin-top: -6px"><small>Cantidad de BTC actuales en circulación.</small></h4>
+
+                                          <center>
+                                             <div class="chart" data-percent="{{s.PercentBTC}}" data-scale-color="false">
+                                                <span class="percent">{{s.PercentBTC}} %</span>
+                                             </div>
+                                          </center>
+                                          <br>
+
+                                          <div class="row">
+                                             <div class="col-xs-12 col-sm-3 col-md-5 col-lg-6">
+                                                <h4><small class="last-trans-title">Total Bitcoins</small></h4>
+                                                <h4 class="borders overflow-off font-medium">{{ s.TotalBTC | number }}</h4>
+                                             </div>
+                                             <div class="col-xs-12 col-sm-3 col-md-7 col-lg-6">
+                                                <h4><small class="last-trans-title">Network Difficulty</small></h4>
+                                                <h4 class="borders overflow-off font-medium">{{ s.NetDif | number:0 }}</h4>
+                                             </div>
+                                             <div class="col-xs-12 col-sm-3 col-md-5 col-lg-6">
+                                                <h4><small class="last-trans-title">Total Blocks</small></h4>
+                                                <h4 class="borders overflow-off font-medium">{{ s.TotalBlocks | number }}</h4>
+                                             </div>
+                                             <div class="col-xs-12 col-sm-3 col-md-7 col-lg-6">
+                                                <h4><small class="last-trans-title">Network Hashrate</small></h4>
+                                                <h4 class="borders overflow-off font-medium">{{ s.NetHashRate | number:0 }} <small>GH/s</small></h4>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div> <!-- col-md-4 -->
+            </div> <!-- row -->
+
+            <!-- footer -->
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="widget widget-body">
+                     <div class="widget-body innerAll bg-widget-gray">
+                        <div class="row">
+                           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                           </div>
+                        </div>
+
+                        <div class="row">
+                           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                              <div class="row">
+                                 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-right footer-left">
+                                    <h4><small class="last-trans-title">
+                                       <i class="fa fa-user"></i><br/>
+                                       <b>About Us</b>
+                                    </small></h4>
+                                 </div>
+                                 <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 footer-right">
+                                    <p>
+                                       Maximiliano Cañellas · <a href="https://twitter.com/maxidev_" target="_blank">@maxidev_</a>
+                                    </p>
+                                    <p>
+                                       Lisandro Gallo · <a href="https://twitter.com/lisogallo" target="_blank">@lisogallo</a>
+                                    </p>
+                                    <h6>Powered by <a href="https://sinaptica.io/" target="_blank">Sinaptica Labs</a></h6>
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                              <br class="hidden-sm hidden-md hidden-lg">
+                              <div class="row">
+                                 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-4 text-right footer-left">
+                                    <h4><small class="last-trans-title">
+                                       <i class="fa fa-gears"></i><br/>
+                                       <b>Developer<br/>API &amp; Sources</b>
+                                    </small></h4>
+                                 </div>
+                                 <div class="col-xs-9 col-sm-9 col-md-9 col-lg-8 footer-right">
+                                    <p><a href="#">Bitcharts Graphs API</a></p>
+                                    <p><a href="#">Bitcharts Marketcap API</a></p>
+                                    <p><a href="#">BTC Values Source</a></p>
+                                    <p><a href="#">Bitcoin Network Stats</a></p>
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                              <br class="hidden-sm hidden-md hidden-lg">
+                              <div class="row">
+                                 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-right footer-left">
+                                    <h4><small class="last-trans-title">
+                                       <i class="fa fa-github"></i><br/>
+                                       <b>GitHub</b>
+                                    </small></h4>
+                                 </div>
+                                 <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 footer-right">
+                                    <p><a href="#">AngularJS Controllers</a></p>
+
+                                    <p><a href="#">Bitcharts Core</a></p>
+
+                                    <h6>GNU Affero General Public License</h6>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div> <!-- widget widget-body -->
+               </div> <!-- col md 12 -->
+            </div>
+
+            <!-- footer fixed -->
+            <div class="clearfix"></div>
+            <!-- <div id="footer" class="hidden-print">AD footer</div> -->
+         </div><!-- content -->
+      </div>
+   </div> <!-- container-fluid -->
+
+<!-- Bower dependencies -->
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/jquery.breakpoints/breakpoints.js"></script>
+<script src="/bower_components/angular/angular.min.js"></script>
+<script src="/bower_components/modernizr/modernizr.js"></script>
+<script src="/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+<script src="/bower_components/highstock-release/highstock.js"></script>
+<script src="/bower_components/highstock-release/modules/exporting.js"></script>
+<script src="/bower_components/relayfoods-jquery.sparkline/dist/jquery.sparkline.min.js"></script>
+<script src="/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+
+<!-- Custom assets -->
+<script src="/js/min/wallet_balance.min.js"></script>
+<script src="/js/min/graphs.min.js"></script>
+<script src="/js/bitcharts.js"></script>
+<script src="/js/animations.init.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/pace/pace.min.js"></script>
+<script src="/js/pace/preload.pace.init.js"></script>
+<script src="/assets/select2/select2.min.js"></script>
+
+<!-- PieChart Script -->
+<!-- PieChart Script -->
+<script type="text/javascript">
+   $(function() {
+       setTimeout(function(){
+         $('.chart').easyPieChart({
+            easing: 'easeOutCirc',
+            animate: 3000,
+            delay: 750,
+            barColor: '#607B8B',
+            trackColor: 'rgba(96, 123, 139, 0.15)',
+            scaleColor: '#65a7d2',
+            lineCap: 'butt',
+            lineWidth: 25,
+            size: 191,
+         });
+      }, 1800);
+   });
+</script>
+
+<!-- Script Alert, borrar cuando este login de acá: -->
+<script type="text/javascript">
+   $("#test").click(function() {
+      if($("#alert").is(":visible")){
+         $("#alert").hide();
+      }else{
+         $("#alert").show();
+      }
+   });
+</script>
+<!-- Hasta acá -->
+
+<script type="text/javascript">
+$('#wallet-btn').click(function() {
+   var wallet = $('#wallet-search').val();
+    window.location = "/walletinfo/"+wallet;
+ });
+</script>
+
+<!-- select2 -->
+<script type="text/javascript">
+  $('select').select2();
+</script>
+
+<!-- popover -->
+<script type="text/javascript">
+   $('[data-toggle="popover"]').popover();
+</script>
+
+<script type="text/javascript">
+$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+   $('#graph1_2').highcharts().reflow();
+   $('#graph1_3').highcharts().reflow();
+})
+</script>
+
+<!-- sparkline script -->
+<script type="text/javascript">
+   (function($){
+
+      $(window).on('load', function(){
+         setTimeout(function(){
+
+            $(".sparkline").each(function()
+            {
+               var d = $(this).data('data') || "html";
+               $(this).sparkline(
+                  d, {
+                     type: 'bar',
+                     height: '70',
+                     barWidth: 10,
+                     barSpacing: 8,
+                     zeroAxis: false,
+                     stackedBarColor: ['#dedede', "#dedede"],
+                     colorMap: $(this).data('colors') ? $(this).data('colors').split(",") : [],
+                     enableTagOptions: true
+                  }
+               );
+            });
+
+         }, 700);
+      });
+   })(jQuery);
+</script>
+<script type="text/javascript">
+   $(document).ready(function() {
+      $("#modal").modal("show");
+   });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<head>
+   <title>Bitcharts.io | Bitcoin real-time metrics</title>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+   <meta name="description" content="Bitcoin real-time metrics, graphics and calculations for Argentina"/>
+   <meta name="robots" content="INDEX, FOLLOW"/>
+   <meta name="country" content="Argentina"/>
+   <meta name="Keywords" content="bitcoin - charts - metrics - graphs"/>
+   <meta property="og:title" content="Bitcharts.io | Bitcoin real-time metrics"/>
+   <meta property="og:image" content="https://bitcharts.io/assets/images/fbseo1.jpg"/>
+   <meta property="og:site_name" content="bitcharts.io"/>
+   <meta property="og:url" content="https://bitcharts.io"/>
+   <meta property="og:description" content="Bitcoin real-time metrics for Argentina"/>
+   <link rel="stylesheet" href="/../assets/select2/select2.css"/>
+   <link rel="stylesheet" href="/../css/animate.css/animate.css">
+   <link rel="stylesheet" href="/../css/main.css"/>
+</head>
+
+<body ng-app="bitcharts">
+   <div class="container-fluid menu-hidden">
+      <div id="content">
+         <!-- navbar -->
+         <% include ../views/navbar %>
+         <!-- end navbar -->
+
+         <div class="innerLR">
+            <div class="row">
+               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <!-- alert error login -->
+                  <!-- when login remove from here: -->
+                  <div id="alert" class="alert alert-danger alert-dismissible alert-login">
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                     </button>
+                     <b>El acceso de usuario se encuentra temporalmente deshabilitado.</b>
+                  </div>
+                  <!-- to here -->
+
+<!--                   <div class="alert alert-primary alert-ad">
+                     <button type="button" class="close" data-dismiss="alert">×</button>
+                     <h4 class="text-center"><small style="color: #fff">
+                     <b><a href="https://sinaptica.io" style="color: #fff" target="_blank">sinaptica.io</a></b> | Consultoría y desarrollo seguro
+                     </small></h4>
+                  </div> -->
+               </div>
+            </div>
+
+            <div class="row">
+               <!-- Grafico Bitcoins Begin -->
+               <div class="col-md-8">
+                  <div class="relativeWrap">
+                     <div class="widget widget-tabs widget-tabs-double widget-tabs-responsive">
+                        <div class="widget-head" style="background-color: #f7f7f7">
+                           <ul>
+                              <li class="active"><a href="#graph1" class="glyphicons globe" data-toggle="tab" ><i></i><span class="strong">Exchanges</span><span>Argentinos</span></a>
+                              </li>
+                              <li>
+                                 <a href="#graph2" class="glyphicons charts" data-toggle="tab" id="graph2tab">
+                                    <i></i><span class="strong">Exchanges</span><span>Internacionales</span>
+                                 </a>
+                              </li>
+                              <li>
+                                 <a href="#graph3" class="glyphicons money" data-toggle="tab">
+                                    <i></i><span class="strong" >Cotización Dólar</span><span>Oficial / Informal (blue)</span>
+                                 </a>
+                              </li>
+                           </ul>
+                        </div> <!-- widget-head -->
+                        <div class="widget-body bg-widget-gray">
+                           <div class="tab-content">
+                              <div class="tab-pane active" id="graph1">
+                                 <div id="graph1_1"></div>
+                              </div>
+                              <div class="tab-pane" id="graph2">
+                                 <div id="graph1_2"></div>
+                              </div>
+                              <div class="tab-pane" id="graph3">
+                                 <div id="graph1_3"></div>
+                              </div>
+                           </div> <!-- tab-content -->
+                        </div> <!-- widget-body -->
+                     </div>
+                  </div><!-- relativewrap -->
+               </div>
+               <!-- Graficos Bitcoins End -->
+               <!-- Calculadora & Wallet Info Begin -->
+               <div class="col-md-4" ng-cloak>
+                  <div class="relativeWrap">
+                     <div class="widget widget-tabs widget-tabs-double widget-tabs-responsive">
+                        <div class="widget-head" style="background-color: #f7f7f7">
+                           <ul>
+                              <li class="active">
+                                 <a href="#tab1-1" class="glyphicons calculator" data-toggle="tab"><i></i><span class="strong">Calculadora</span><span>Bitcoin</span></a>
+                              </li>
+                              <li>
+                                 <a href="#tab1-2" class="glyphicons wallet" data-toggle="tab"><i></i><span class="strong">Wallet </span><span>Balance</span></a>
+                              </li>
+                           </ul>
+                        </div> <!-- widget-head -->
+                        <div class="widget-body bg-widget-gray">
+                           <div class="tab-content">
+                              <div class="tab-pane active" id="tab1-1">
+                                 <% include ../views/calc %>
+                              </div> <!-- tab-pane active -->
+
+                              <div class="tab-pane" id="tab1-2">
+                                 <div class="widget-body innerAll" style="height: 400px;">
+                                    <input type="text" class="form-control" id="wallet" name="wallet" placeholder="Introduzca una wallet">
+                                    <div id="alerta" style="color:#CC3A3A">Wallet inválida</div> <!-- alerta -->
+                                    <div id="alerta1">Tip: Las wallets Bitcoin tienen más de 33 caracteres.</div> <!-- alerta -->
+                                    <p class="text-center"> <i id="fa-spinner" class="fa fa-spinner fa-spin fa-2x" style="margin-top: 10px;"></i></p>
+                                    <div id="divWalletBalance" style="padding-top: 5px">
+                                       <h4><small class="last-trans-title">Balance BTC</small></h4>
+                                       <h4 class="borders overflow-off">
+                                          <span id="balance"></span>
+                                       </h4>
+
+                                       <h4><small class="last-trans-title">Balance USD</small></h4>
+                                       <h4 class="borders overflow-off">
+                                          $ <span id="balance_btc_usd"></span>
+                                       </h4>
+
+                                       <h4><small class="last-trans-title">Balance ARS</small></h4>
+                                       <h4 class="borders overflow-off">
+                                          $ <span id="balance_ars_blue"></span>
+                                       </h4>
+
+                                       <h4><small class="last-trans-title">Total BTC Recibido</small></h4>
+                                       <h4 class="borders overflow-off">
+                                          <span id="recv"></span>
+                                       </h4>
+
+                                       <h4><small class="last-trans-title">Total BTC Enviado</small></h4>
+                                       <h4 class="borders overflow-off">
+                                          <span id="sent"></span>
+                                       </h4>
+                                    </div> <!-- divwalletbalance -->
+                                 </div> <!--  widget-body innerAll -->
+                              </div> <!-- tabpane-1-2 -->
+                           </div> <!-- tab-content -->
+                        </div> <!-- widget-body -->
+                     </div> <!-- widget-tabs double -->
+                  </div> <!-- relativewrap -->
+               </div> <!-- col-md4 -->
+               <!-- Calculadora & Wallet Info End -->
+            </div>
+
+            <!-- Exchange Row Begin -->
+            <div class="row text-center" ng-controller="exchangesController as e">
+
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                  <div class="widget">
+                     <div class="widget-body padding-none bg-widget-gray">
+                        <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none">
+                           <b>Bitfinex</b>
+                           <!--
+                           <i class="fa fa-check-circle pull-right"></i>
+                           -->
+                        </h4>
+                        <div class="innerAll-2 text-left">
+                           <h4><small class="last-trans-title">Compra</small></h4>
+                           <h4 class="price-buy borders text-right fontsize-exchange">
+                              {{e.getSource("bitfinex").buy|currency}} {{e.getSource("bitfinex").currency}}
+                           </h4>
+
+                           <h4><small class="last-trans-title">Venta</small></h4>
+                           <h4 class="price-sell borders text-right fontsize-exchange">
+                              {{e.getSource("bitfinex").sell|currency}} {{e.getSource("bitfinex").currency}}
+                           </h4>
+
+                           <div class="sparkline" sparkHeight="25" sparkType="line" sparkWidth="100%" sparkLineWidth="2" sparkLineColor="#607B8B" sparkFillColor="rgba(96, 123, 139, 0.233)"
+                           data-data="{{e.getSource('bitfinex').history}}">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                  <div class="widget">
+                     <div class="widget-body padding-none bg-widget-gray">
+                        <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none">
+                           <b>Bitstamp</b>
+                           
+                        </h4>
+                        <div class="innerAll-2 text-left">
+                           <h4><small class="last-trans-title">Compra</small></h4>
+                           <h3 class="price-buy borders text-right fontsize-exchange">
+                              {{e.getSource("bitstamp").buy|currency}} {{e.getSource("bitstamp").currency}}
+                           </h3>
+
+                           <h4><small class="last-trans-title">Venta</small></h4>
+                           <h3 class="price-sell borders text-right fontsize-exchange">
+                              {{e.getSource("bitstamp").sell|currency}} {{e.getSource("bitstamp").currency}}
+                           </h3>
+
+                           <div class="sparkline" sparkHeight="25" sparkType="line" sparkWidth="100%" sparkLineWidth="2" sparkLineColor="#607B8B" sparkFillColor="rgba(96, 123, 139, 0.233)"
+                           data-data="{{e.getSource('bitstamp').history}}">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                  <div class="widget">
+                     <div class="widget-body padding-none bg-widget-gray">
+                        <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none">
+                           <b>Bitex</b>
+                        </h4>
+                        <div class="innerAll-2 text-left">
+                           <h4><small class="last-trans-title">Compra</small></h4>
+                           <h3 class="price-buy borders text-right fontsize-exchange">
+                              {{e.getSource("bitex").buy|currency}} {{e.getSource("bitex").currency}}
+                           </h3>
+
+                           <h4><small class="last-trans-title">Venta</small></h4>
+                           <h3 class="price-sell borders text-right fontsize-exchange">
+                              {{e.getSource("bitex").sell|currency}} {{e.getSource("bitex").currency}}
+                           </h3>
+
+                           <div style="width: 100%">
+                              <div class="sparkline" sparkHeight="25" sparkWidth="100%" sparkType="line" sparkLineWidth="2" sparkLineColor="#607B8B" sparkFillColor="rgba(96, 123, 139, 0.233)"
+                              data-data="{{e.getSource('bitex').history}}"></div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                  <div class="widget">
+                     <div class="widget-body padding-none bg-widget-gray">
+                        <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none">
+                           <b>ArgenBTC</b>
+                        </h4>
+                        <div class="innerAll-2 text-left">
+                           <h4><small class="last-trans-title">Compra</small></h4>
+                           <h4 class="price-buy borders text-right fontsize-exchange">
+                              {{e.getSource("argenbtc").buy|currency}} {{e.getSource("argenbtc").currency}}
+                           </h4>
+
+                           <h4><small class="last-trans-title">Venta</small></h4>
+                           <h4 class="price-sell borders text-right fontsize-exchange">
+                              {{e.getSource("argenbtc").sell|currency}} {{e.getSource("argenbtc").currency}}
+                           </h4>
+
+                           <div class="sparkline" sparkHeight="25" sparkType="line" sparkWidth="100%" sparkLineWidth="2" sparkLineColor="#607B8B" sparkFillColor="rgba(96, 123, 139, 0.233)"
+                           data-data="{{e.getSource('argenbtc').history}}">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                  <div class="widget">
+                     <div class="widget-body padding-none bg-widget-gray">
+                        <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none">
+                           <b>Ripio</b>
+                        </h4>
+                        <div class="innerAll-2 text-left">
+                           <h4><small class="last-trans-title">Compra</small></h4>
+                           <h3 class="price-buy borders text-right fontsize-exchange">
+                              {{e.getSource("ripio").buy|currency}} {{e.getSource("ripio").currency}}
+                           </h3>
+
+                           <h4><small class="last-trans-title">Venta</small></h4>
+                           <h3 class="price-sell borders text-right fontsize-exchange">
+                              {{e.getSource("ripio").sell|currency}} {{e.getSource("ripio").currency}}
+                           </h3>
+
+                           <div class="sparkline" sparkHeight="25" sparkType="line" sparkWidth="100%" sparkLineWidth="2" sparkLineColor="#607B8B" sparkFillColor="rgba(96, 123, 139, 0.233)"
+                           data-data="{{e.getSource('ripio').history}}">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                  <div class="widget">
+                     <div class="widget-body padding-none bg-widget-gray">
+                        <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none">
+                           <b>SatoshiTango</b>
+                        </h4>
+                        <div class="innerAll-2 text-left">
+                           <h4><small class="last-trans-title">Compra</small></h4>
+                           <h3 class="price-buy borders text-right fontsize-exchange">
+                              {{e.getSource("satoshi_tango").buy|currency}} {{e.getSource("satoshi_tango").currency}}
+                           </h3>
+
+                           <h4><small class="last-trans-title">Venta</small></h4>
+                           <h3 class="price-sell borders text-right fontsize-exchange">
+                              {{e.getSource("satoshi_tango").sell|currency}} {{e.getSource("satoshi_tango").currency}}
+                           </h3>
+
+                           <div class="sparkline" sparkHeight="25" sparkType="line" sparkWidth="100%" sparkLineWidth="2" sparkLineColor="#607B8B" sparkFillColor="rgba(96, 123, 139, 0.233)"
+                           data-data="{{e.getSource('satoshi_tango').history}}">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+            </div>
+            <!-- Exchange Row End -->
+
+            <div class="row">
+               <!-- grafico 2 -->
+               <div class="col-md-8">
+                  <div class="widget widget-body">
+                     <div class="widget-body innerAll bg-widget-gray">
+                        <div id="graphCand"></div>
+                     </div>
+                  </div> <!-- widget widget-body -->
+               </div> <!-- col md 8 -->
+               <!-- grafico 2 end -->
+
+               <div class="col-md-4" ng-controller="statsController as s">
+                  <div class="widget">
+                     <div class="widget-body padding-none bg-widget-gray">
+                        <h4 class="innerAll-2 bg-gray border-bottom margin-bottom-none text-center">
+                           <b>Estadísticas de Red</b>
+                        </h4>
+                        <div class="innerAll">
+                           <h4 class="text-center" style="margin-top: -6px"><small>Bitcoins en Circulación</small></h4>
+
+                           <center>
+                              <div class="chart" data-percent="{{s.PercentBTC}}" data-scale-color="false">
+                                 <span class="percent">{{s.PercentBTC}} %</span>
+                              </div>
+                           </center>
+                           <br>
+
+                           <div class="row">
+                              <div class="col-xs-12 col-sm-3 col-md-5 col-lg-6">
+                                 <h4><small class="last-trans-title">Bitcoins totales</small></h4>
+                                 <h4 class="borders overflow-off font-medium">{{ s.TotalBTC}}</h4>
+                              </div>
+                              <div class="col-xs-12 col-sm-3 col-md-7 col-lg-6">
+                                 <h4><small class="last-trans-title">Dificultad de red</small></h4>
+                                 <h4 class="borders overflow-off font-medium">{{ s.NetDif | number:0 }}</h4>
+                              </div>
+                              <div class="col-xs-12 col-sm-3 col-md-5 col-lg-6">
+                                 <h4><small class="last-trans-title">Total de bloques</small></h4>
+                                 <h4 class="borders overflow-off font-medium">{{ s.TotalBlocks | number }}</h4>
+                              </div>
+                              <div class="col-xs-12 col-sm-3 col-md-7 col-lg-6">
+                                 <h4><small class="last-trans-title">Hasheo total de red</small></h4>
+                                 <h4 class="borders overflow-off font-medium">{{ s.NetHashRate | number:0 }} <small>GH/s</small></h4>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div> <!-- col-md-4 -->
+            </div> <!-- row -->
+
+            <!-- footer -->
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="widget widget-body">
+                     <div class="widget-body innerAll bg-widget-gray">
+                        <div class="row">
+                           <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                           </div>
+                        </div>
+
+                        <div class="row">
+
+                           <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                              <br class="hidden-sm hidden-md hidden-lg">
+                              <div class="row">
+                                 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-right footer-left">
+                                    <h4><small class="last-trans-title">
+                                       <i class="fa fa-github"></i><br/>
+                                       <b>GitHub</b>
+                                    </small></h4>
+                                 </div>
+                                 <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 footer-right">
+                                    <p><a href="https://github.com/lisogallo/bitcharts-core">Bitcharts Core {Python}</a></p>
+                                    <p><a href="https://github.com/maxidev/bitcharts-nodejs">Front/Back End {Angular &amp; Node.js}</a></p>
+                                    <h6>GNU Affero General Public License</h6>
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                              <br class="hidden-sm hidden-md hidden-lg">
+                              <div class="row">
+                                 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-4 text-right footer-left">
+                                    <h4><small class="last-trans-title">
+                                       <i class="fa fa-gears"></i><br/>
+                                       <b>Developer<br/>APIs</b>
+                                    </small></h4>
+                                 </div>
+                                 <div class="col-xs-9 col-sm-9 col-md-9 col-lg-8 footer-right">
+                                    <p><a href="/doc#one">Documentación</a></p>
+                                    <p><a href="/doc#two">Bitcharts Ticker</a></p>
+                                    <p><a href="/doc#three">Wallet APIs</a></p>
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                              <div class="row">
+                                 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-right footer-left">
+                                    <h4><small class="last-trans-title">
+                                       <i class="fa fa-user"></i><br/>
+                                       <b>About Us</b>
+                                    </small></h4>
+                                 </div>
+                                 <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 footer-right">
+                                    <p>
+                                       Maximiliano Cañellas · <a href="https://twitter.com/maxidev_" target="_blank">@maxidev_</a>
+                                    </p>
+                                    <p>
+                                       Lisandro Gallo · <a href="https://twitter.com/lisogallo" target="_blank">@lisogallo</a>
+                                    </p>
+                                    <p>
+                                       Email · <a>info@bitcharts.io</a>
+                                    </p>
+                                    <h6>Powered by <a href="https://sinaptica.io/" target="_blank">Sinaptica</a></h6>
+                                 </div>
+                              </div>
+                           </div>
+
+                        </div>
+                     </div>
+                  </div> <!-- widget widget-body -->
+               </div> <!-- col md 12 -->
+            </div>
+            <!-- footer fixed -->
+            <div class="clearfix"></div>
+         </div><!-- content -->
+      </div>
+   </div> <!-- container-fluid -->
+
+<!-- Bower dependencies -->
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/jquery.breakpoints/breakpoints.js"></script>
+<script src="/bower_components/relayfoods-jquery.sparkline/dist/jquery.sparkline.min.js"></script>
+<script src="/bower_components/angular/angular.min.js"></script>
+<script src="/bower_components/modernizr/modernizr.js"></script>
+<script src="/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+<script src="/bower_components/highstock-release/highstock.js"></script>
+<script src="/bower_components/highstock-release/modules/exporting.js"></script>
+<script src="/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+
+<!-- Custom assets -->
+<script src="/js/min/wallet_balance.min.js"></script>
+<script src="/js/graphs.js"></script>
+<script src="/js/bitcharts.js"></script>
+<script src="/js/animations.init.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/pace/pace.min.js"></script>
+<script src="/js/pace/preload.pace.init.js"></script>
+<script src="/assets/select2/select2.min.js"></script>
+
+<!-- PieChart Script -->
+<script type="text/javascript">
+   $(function() {
+       setTimeout(function(){
+         $('.chart').easyPieChart({
+            easing: 'easeOutCirc',
+            animate: 3000,
+            delay: 750,
+            barColor: '#607B8B',
+            trackColor: 'rgba(96, 123, 139, 0.15)',
+            scaleColor: '#65a7d2',
+            lineCap: 'butt',
+            lineWidth: 25,
+            size: 191,
+         });
+      }, 2500);
+   });
+</script>
+
+<!-- Script Alert, borrar cuando este login de acá: -->
+<script type="text/javascript">
+   $("#test").click(function() {
+      if($("#alert").is(":visible")){
+         $("#alert").hide();
+      }else{
+         $("#alert").show();
+      }
+   });
+</script>
+<!-- Hasta acá -->
+
+<script type="text/javascript">
+$('#wallet-btn').click(function() {
+   var wallet = $('#wallet-search').val();
+    window.location = "/walletinfo/"+wallet;
+ });
+</script>
+
+<!-- select2 -->
+<script type="text/javascript">
+  $('select').select2();
+</script>
+
+<!-- popover -->
+<script type="text/javascript">
+   $('[data-toggle="popover"]').popover();
+</script>
+
+<script type="text/javascript">
+$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+   $('#graph1_2').highcharts().reflow();
+   $('#graph1_3').highcharts().reflow();
+})
+</script>
+
+<!-- sparkline script -->
+<script type="text/javascript">
+   (function($){
+
+      $(window).on('load', function(){
+         setTimeout(function(){
+
+            $(".sparkline").each(function()
+            {
+               var d = $(this).data('data') || "html";
+               $(this).sparkline(
+                  d, {
+                     type: 'bar',
+                     height: '70',
+                     barWidth: 10,
+                     barSpacing: 8,
+                     zeroAxis: false,
+                     stackedBarColor: ['#dedede', "#dedede"],
+                     colorMap: $(this).data('colors') ? $(this).data('colors').split(",") : [],
+                     enableTagOptions: true
+                  }
+               );
+            });
+
+         }, 1000);
+      });
+   })(jQuery);
+</script>
+
+</body>
+</html>

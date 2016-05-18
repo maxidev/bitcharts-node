@@ -1,0 +1,41 @@
+{
+  "name": "bitcharts.io",
+  "version": "0.0.9",
+  "private": true,
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "bitcoin-address": "^0.3.0",
+    "bitcoinjs-lib": "^1.5.7",
+    "body-parser": "1.12.4",
+    "chain-node": "^3.1.2",
+    "colors": "1.1.0",
+    "compression": "1.4.4",
+    "connect-mongo": "^0.8.1",
+    "cookie-parser": "1.3.4",
+    "debug": "2.2.0",
+    "ejs": "2.3.1",
+    "express": "4.12.3",
+    "express-session": "1.11.2",
+    "helmet": "^0.9.0",
+    "i18n": "^0.5.0",
+    "limiter": "^1.0.5",
+    "mongoose": "4.0.3",
+    "morgan": "1.5.3",
+    "passport": "0.2.1",
+    "passport-local": "1.0.0",
+    "prettyjson": "1.1.1",
+    "randomstring": "1.0.5",
+    "request": "^2.55.0",
+    "static-favicon": "2.0.0-alpha",
+    "validator": "3.39.0"
+  },
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-concurrent": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "latest",
+    "grunt-nodemon": "latest",
+    "jshint-stylish": "latest"
+  }
+}
